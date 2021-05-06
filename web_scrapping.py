@@ -26,10 +26,14 @@ def get_data():
 
     site = BeautifulSoup(content, 'html.parser')
     events = site.findAll('article', attrs={'class': 'post-row'})
+    data = {}
     for event in events:
         info = event.find('h3').text
         date = info.split(':')[0]
         title = info.split(':')[1]
-        print(f'{date} : {title}')
+        data[date] = title
+    return data
+
+    
 
 get_data()
