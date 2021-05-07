@@ -3,7 +3,7 @@ import json
 
 from helpers import data_file_name
 
-app = Flask("Space Agent")
+app = Flask(__name__)
 
 @app.route("/data", methods=["GET"])
 def get_space_data():
