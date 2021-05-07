@@ -21,5 +21,3 @@ def events_data():
         with open(f"data/{file_name}.json", "w", encoding="utf8") as json_file:
             json.dump(data, json_file)
             json_file.close()
-
-events_data()
