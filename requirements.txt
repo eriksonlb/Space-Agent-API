@@ -1,6 +1,6 @@
 requests
 bs4
-googletrans
+deep_translator
 flask
 pytz
 gunicorn
