@@ -1,11 +1,11 @@
 import requests
 import datetime
 
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 from bs4 import BeautifulSoup
 
 
-translator = Translator()
+translator = GoogleTranslator(source='en', target='pt')
 
 def get_data():
     response = requests.get('https://www.timeanddate.com/astronomy/sights-to-see.html')
@@ -39,10 +39,10 @@ def get_data():
         img_data = event.find('figure')
         img = img_data.find('img')
         img_link = img['src']
-        # detail = translator.translate(detail)
+        detail = translator.translate(detail)
         date = info.split(':')[0]
         title = info.split(':')[1]
-        # title = translator.translate(title)
+        title = translator.translate(title)
         index = index + 1
         event_data = {
             'title': title,
@@ -57,4 +57,4 @@ def get_data():
 
     
 
-get_data()
+data = get_data()
