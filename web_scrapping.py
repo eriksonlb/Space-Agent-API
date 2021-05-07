@@ -36,6 +36,9 @@ def get_data():
     for event in events:
         info = event.find('h3').text
         detail = event.find('p').text
+        img_data = event.find('figure')
+        img = img_data.find('img')
+        img_link = img['src']
         # detail = translator.translate(detail)
         date = info.split(':')[0]
         title = info.split(':')[1]
@@ -44,7 +47,8 @@ def get_data():
         event_data = {
             'title': title,
             'date': date.replace('/', ' and '), 
-            'details': detail
+            'details': detail,
+            'img_link': img_link
         }
         item[f'event_{index}'] = event_data
         data.append(item)    
