@@ -30,7 +30,8 @@ def get_data():
 
     site = BeautifulSoup(content, 'html.parser')
     events = site.findAll('article', attrs={'class': 'post-row'})
-    data = {}
+    item = {}
+    data = []
     index = 0
     for event in events:
         info = event.find('h3').text
@@ -45,9 +46,10 @@ def get_data():
             'date': date.replace('/', ' and '), 
             'details': detail
         }
-        data[f'event_{index}'] = event_data
+        item[f'event_{index}'] = event_data
+        data.append(item)    
 
-    return [data]
+    return data
 
     
 
