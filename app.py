@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route("/", methods=["GET"])
 def get_space_data():
     events_data()
-    with open(f"data/{data_file_name()}.json", "r", encoding="utf8") as json_file:
+    with open("data/events.json", "r", encoding="utf8") as json_file:
             data = json.load(json_file)
             json_file.close()
             return jsonify(data)
