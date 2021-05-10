@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 translator = GoogleTranslator(source='en', target='pt')
 
-def get_data():
+def get_data_timeand_date():
     response = requests.get('https://www.timeanddate.com/astronomy/sights-to-see.html')
     content = response.content
     today = datetime.datetime.now()
@@ -55,6 +55,66 @@ def get_data():
 
     return data
 
+def get_event_details_inthesky(url_event_detail):
+    response = requests.get(url_event_detail)
+    content = response.content
+    site = BeautifulSoup(content, 'html.parser')
+    details_div = site.find('div', attrs={'class': 'mainpane'})
+    img_data = {
+        'img_url': details_div.find('img')['src'],
+        'img_description': translator.translate(details_div.find('img')['alt']),
+    }
+    news_div = details_div.find('div', attrs={'class': 'newsbody'})
+    text =  news_div.find_all('p')[0].text
+    tranlated_text = translator.translate(text.replace('\n', ''))
+    return {
+        'img_data': img_data,
+        'text': tranlated_text
+    }
+
+def get_data_inthesky():
+    months_translated = {
+        'january': 'Janeiro',
+        'february': 'Fevereiro',
+        'march': 'Março',
+        'april': 'Abril',
+        'may': 'Maio',
+        'june': 'Junho',
+        'july': 'Julho',
+        'august': 'Agosto',
+        'september': 'Setembro',
+        'october': 'Outubro',
+        'november': 'Novembro',
+        'december': 'Dezembro'
+    }
+    response = requests.get('https://in-the-sky.org/newscalyear.php?year=2021&maxdiff=1')
+    content = response.content
+    site = BeautifulSoup(content, 'html.parser')
+    year_events = site.findAll('table', attrs={'class': 'stripy'})
+    month = []
+    data = {}
+    index = 0    
+    for month_events in year_events:
+        month = month_events.find('thead').text
+        rows = month_events.find('tbody')
+        events = rows.find_all('tr')
+        month_name = months_translated[month.lower()]
+        event_list = []
+        for event in events:
+            name = event.find('a').text
+            name = translator.translate(name)
+            day = event.find('td').text
+            details = get_event_details_inthesky(event.find('a')['href'])
+            event_data = {
+                'day': day,
+                'name': name,
+                'details': details
+            }
+            event_list.append(event_data)
+        data[month_name] = event_list
+    return data
+            
+
     
 
-data = get_data()
+data = get_data_inthesky()
