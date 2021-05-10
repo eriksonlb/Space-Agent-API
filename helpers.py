@@ -9,6 +9,7 @@ def data_file_name():
     return f'{today.day}_{today.month}_{today.year}'
 
 def events_data():   
+    print('Iniciando busca de dados')
     try:
         with open(f"data/events.json", "r", encoding="utf8") as json_file:
             print('file_exists\n\n')

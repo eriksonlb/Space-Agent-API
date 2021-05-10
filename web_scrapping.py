@@ -117,4 +117,4 @@ def get_data_inthesky():
 
     
 
-data = get_data_inthesky()
+# data = get_data_inthesky()
